@@ -136,6 +136,4 @@ import dotenv
 dotenv.load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 '''
-DenysKurman
-9Cbe3bKRK9k9
 '''
