@@ -6,3 +6,4 @@ urlpatterns = [
     path('admin/', admin_site.urls),
     path('', include('main.urls'))
 ]
+handler500 = 'main.views.handler500'

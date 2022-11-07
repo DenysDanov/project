@@ -4,6 +4,8 @@ from .models import CarProducer, Auto, Part
 
 class CustomAdminSite(admin.AdminSite):
     site_header = "Курсовий проект Дениса Курмана"
+    site_title = 'FDA.if'
+    index_title = 'FDA.if'
 
 admin_site = CustomAdminSite(name='myadmin')
 

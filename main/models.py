@@ -26,8 +26,9 @@ class Auto(models.Model):
         ('0','Бензин'),   
         ('1','Електро'),  
         ('2','Дизель'),   
+        ('3','Гібрид'),   
     ]
-
+# django.db.utils.IntegrityError: FOREIGN KEY constraint failed
     BODY_CHOICES = [
         ('0','Седан'),    
         ('1','Кросовер'), 
@@ -71,7 +72,7 @@ class Part(models.Model):
     belongs_to = models.ForeignKey(
             verbose_name = "Автомобіль", 
             to = Auto, 
-            on_delete = models.DO_NOTHING
+            on_delete = models.CASCADE
         )
     
 
