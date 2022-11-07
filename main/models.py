@@ -17,29 +17,31 @@ class CarProducer(models.Model):
 class Auto(models.Model):
     
     WHEEL_DRIVE_CHOICES = [
-        ('Повний', '1'),
-        ('Передній', '2'),
-        ('Задній', '3'),
+        ('1','Повний'),   
+        ('2','Передній'), 
+        ('3','Задній'),   
     ]
+
     FUEL_CHOICES = [
-        ('Бензин', 0),
-        ('Електро', 1),
-        ('Дизель', 2),
+        ('0','Бензин'),   
+        ('1','Електро'),  
+        ('2','Дизель'),   
     ]
+
     BODY_CHOICES = [
-        ('Седан', 0),
-        ('Кросовер', 1),
-        ('Мінівен', 2),
-        ('Мікровен', 3),
-        ('Хетчбек', 4),
-        ('Універсал', 5),
-        ('Купе', 6),
-        ('Кабріолет', 7),
-        ('Пікап', 8),
-        ('Ліфтбек', 9),
-        ('Фастбек', 10),
-        ('Лімузин', 11),
-        ('Родстер', 12),
+        ('0','Седан'),    
+        ('1','Кросовер'), 
+        ('2','Мінівен'),  
+        ('3','Мікровен'), 
+        ('4','Хетчбек'),  
+        ('5','Універсал'),
+        ('6','Купе'),     
+        ('7','Кабріолет'),
+        ('8','Пікап'),    
+        ('9','Ліфтбек'),  
+        ('10','Фастбек'), 
+        ('11','Лімузин'), 
+        ('12','Родстер'), 
     ]
     vin = models.CharField('VIN код', max_length=64, primary_key=True)
     model = models.CharField("Модель", max_length=255)
@@ -51,7 +53,7 @@ class Auto(models.Model):
     engine_volume = models.FloatField('Об\'єм двигуна')
     wheel_drive = models.CharField('Привід', max_length=255, choices=WHEEL_DRIVE_CHOICES)
     fuel = models.CharField('Тип палива', max_length=255, choices=FUEL_CHOICES)
-
+    body = models.CharField('Тип кузова', max_length=255, choices=BODY_CHOICES)
     def __str__(self) -> str:
         return f'{self.vin} | {self.producer} {self.model} {self.year_of_production}р.'
 
@@ -63,15 +65,19 @@ class Auto(models.Model):
 class Part(models.Model):
 
     name = models.CharField('Назва', max_length=255)
+    articul = models.CharField('Артикул', blank=True, max_length=255)
+    buy_price = models.FloatField('Закупочна ціна', blank=True)
+    sell_price = models.FloatField('Роздрібна ціна', blank=True)
     belongs_to = models.ForeignKey(
             verbose_name = "Автомобіль", 
             to = Auto, 
             on_delete = models.DO_NOTHING
         )
-    amount = models.IntegerField('Кількість', blank=True)
     
+
+
     def __str__(self) -> str:
-        return f'{self.name} від {self.belongs_to.__str__()}'
+        return f'{self.name} від {self.belongs_to.producer} {self.belongs_to.model}'
         
     class Meta:
         verbose_name = "Запчастина"
