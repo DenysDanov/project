@@ -67,19 +67,31 @@ class Part(models.Model):
 
     name = models.CharField('Назва', max_length=255)
     articul = models.CharField('Артикул', blank=True, max_length=255)
+    barcode = models.CharField('Штрих-код', max_length=255)
+    
     buy_price = models.FloatField('Закупочна ціна', blank=True)
     sell_price = models.FloatField('Роздрібна ціна', blank=True)
+
     belongs_to = models.ForeignKey(
             verbose_name = "Автомобіль", 
             to = Auto, 
             on_delete = models.CASCADE
         )
-    
-
-
     def __str__(self) -> str:
         return f'{self.name} від {self.belongs_to.producer} {self.belongs_to.model}'
         
     class Meta:
         verbose_name = "Запчастина"
         verbose_name_plural = "Запчастини"
+
+
+class PartUnit(models.Model):
+
+    part = models.ForeignKey(
+        verbose_name = "Назва", 
+        to = Part, 
+        on_delete = models.CASCADE
+    )
+    
+    buy_price = models.FloatField('Закупочна ціна', blank=True)
+    sell_price = models.FloatField('Роздрібна ціна', blank=True)

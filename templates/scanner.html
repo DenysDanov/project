@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="qr-reader" style="width: 600px"></div>
+    <script>
+        const csrftoken = '{{ csrf_token }}';
+        const sleep = (time) => {
+            now = Date.now()
+            while (Date.now() - now > time){}
+        }
+        const send_barcode = (barcode) => {
+            fetch('http://localhost/get_part_by_barcode/', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken' : csrftoken
+                },
+                body: JSON.stringify({ 
+                    "barcode": barcode
+                })
+            })
+            .then(response => response.json())
+            .then(response => window.location.assign(`http://localhost/admin/main/part/${response.data}/change/`))
+        }
+        const onScanSuccess = (decodedText, decodedResult) => {
+            console.log(`Code scanned = ${decodedText}`, decodedResult);
+            send_barcode(decodedText)
+            sleep(2000)
+        }
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
+</body>
+</html>

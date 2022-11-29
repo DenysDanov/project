@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CarProducer, Auto, Part
+from .models import CarProducer, Auto, Part, PartUnit
 
 class CustomAdminSite(admin.AdminSite):
     site_header = "Курсовий проект Дениса Курмана"
@@ -9,12 +9,6 @@ class CustomAdminSite(admin.AdminSite):
 
 admin_site = CustomAdminSite(name='myadmin')
 
-class PartPage(admin.ModelAdmin):
-    search_fields = ['name', 'articul', 'belongs_to__model', 'belongs_to__producer__name']
-
-
-admin_site.register(CarProducer)
-admin_site.register(Part, PartPage)
 
 class PartInline(admin.TabularInline):
     model = Part
@@ -26,5 +20,19 @@ class AutoPage(admin.ModelAdmin):
         PartInline,
     ]
 
+class PartUnitInline(admin.TabularInline):
+    model = PartUnit
+    extra = 1
 
+class PartPage(admin.ModelAdmin):
+    search_fields = ['name', 'articul', 'belongs_to__model', 'belongs_to__producer__name']
+    inlines = [
+        PartUnitInline,
+    ]
+
+
+
+
+admin_site.register(CarProducer)
+admin_site.register(Part, PartPage)
 admin_site.register(Auto, AutoPage)

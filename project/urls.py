@@ -8,6 +8,7 @@ from django.views.static import serve
 urlpatterns = [
     path('admin/', admin_site.urls),
     path('', include('main.urls')),
+    path('stats/', include('statistic.urls')),
     re_path( r"^%s(?P<path>.*)$" % re.escape(settings.STATIC_URL.lstrip("/")), view=serve, kwargs = {'document_root':settings.STATIC_ROOT})
 ]
 if settings.DEBUG:
