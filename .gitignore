@@ -3,3 +3,4 @@ local.py
 local
 .vscode
 migrations
+venv

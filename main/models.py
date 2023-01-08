@@ -1,3 +1,4 @@
+import datetime
 from django.db import models 
 
 class CarProducer(models.Model):
@@ -92,6 +93,6 @@ class PartUnit(models.Model):
         to = Part, 
         on_delete = models.CASCADE
     )
-    
+    sale_date = models.DateTimeField('Дата продажі', auto_now=True)
     buy_price = models.FloatField('Закупочна ціна', blank=True)
     sell_price = models.FloatField('Роздрібна ціна', blank=True)

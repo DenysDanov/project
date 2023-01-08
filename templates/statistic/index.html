@@ -4,9 +4,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Статистика | FDA.if</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body{
+            margin: 10px;
+            padding: 10px;
+        }
+        canvas{
+            width: 60vw !important;
+            height: 35vw !important;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    
+    <h3>Прибуток: {{ margin }}</h3>
+    <div>
+        <canvas id="myChart" width="35vw" width="25vw"></canvas>
+    </div>
+    <div class="hidden">
+        {% for date in sale_date %}
+            <p class="chart_date_value">{{date}}</p> 
+        {%endfor%}
+        {% for value in sale_values %}
+            <p class="chart_sale_value">{{value}}</p> 
+        {%endfor%}
+    </div>
+    <script>
+        const ctx = document.getElementById('myChart');
+        let dates = [ ]
+        let values = [ ]
+        
+        document.querySelectorAll('.chart_date_value').forEach((el) => {
+            dates.push(el.innerHTML)
+        })
+        document.querySelectorAll('.chart_sale_value').forEach((el) => {
+            values.push(parseFloat(el.innerHTML))
+        })
+        new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+            label: 'Продажі',
+            data: values,
+            borderWidth: 4,
+            fill: true,
+            borderColor: 'rgb(75, 192, 192)',
+            }]
+        }
+        });
+    </script>
 </body>
 </html>
+       

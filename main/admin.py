@@ -23,6 +23,8 @@ class AutoPage(admin.ModelAdmin):
 class PartUnitInline(admin.TabularInline):
     model = PartUnit
     extra = 1
+    fields = ['sale_date', 'buy_price', 'sell_price',]
+    readonly_fields = ['sale_date']
 
 class PartPage(admin.ModelAdmin):
     search_fields = ['name', 'articul', 'belongs_to__model', 'belongs_to__producer__name']
